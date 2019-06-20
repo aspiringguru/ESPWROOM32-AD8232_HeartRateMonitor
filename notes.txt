@@ -1,0 +1,52 @@
+https://github.com/coniferconifer/ESP32_Heart_Rate_MQTT
+
+
+https://learn.sparkfun.com/tutorials/ad8232-heart-rate-monitor-hookup-guide/all
+
+this uses the Arduino pro mini
+https://www.sparkfun.com/products/11114
+
+need to convert Arduino pro mini pins to ESP32
+https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
+
+Arduino pro mini
+Analog Pins. There are 8 analog pins available on the board labeled as A0 to A7.
+These pins are used to input analog signals and they come with
+a total resolution of 10bit.
+
+SPI. It represents Serial Peripheral Interface which is mainly used
+for the transmission of data between microcontrollers and other
+peripherals like sensors and registers.
+Four pins 10(SS), 11(MOSI), 12(MISO), and 13(SCK) are used for this purpose.
+(https://www.arduino.cc/en/Reference/SPI)
+
+ESPWROOM32
+https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
+pins 6-11 are SPI
+
+Analog to Digital Converter (ADC) pins
+ADC1_CH3 (GPIO 39)
+ADC1_CH4 (GPIO 32)
+ADC1_CH5 (GPIO 33)
+ADC1_CH6 (GPIO 34)
+ADC1_CH7 (GPIO 35)
+nb: ADC2 channels not compatible with wifi.
+https://randomnerdtutorials.com/esp32-adc-analog-read-arduino-ide/
+// Potentiometer is connected to GPIO 34 (Analog ADC1_CH6)
+//sample code to read GPIO34
+const int potPin = 34;
+int potValue = 0;
+potValue = analogRead(potPin);
+Serial.println(potValue);
+
+
+AD8232: The SDN pin to ground or "LOW" on a digital pin will power down the chip.
+This is useful for low power applications.
+
+Board Label	Pin Function	           Arduino pro mini    ESPWROOM32
+GND	        Ground	                   GND                 GND
+3.3v	    3.3v Power Supply	       3.3v                3.3v
+OUTPUT	    Output Signal	           A0                  GPIO34
+LO-	        Leads-off Detect -	       11
+LO+	        Leads-off Detect +	       10
+SDN	        Shutdown
