@@ -1,81 +1,27 @@
-/*
- * 
- * 
- * 
- */
-
-
-const int OutputPin = 34;
-const int OutputPinLplus = 32;
-const int OutputPinLminus = 35;
-uint32_t Output;
-uint32_t millistimer = millis();
-
-#define DEVICE_TYPE "ESPWROOM32" //
-String clientId = DEVICE_TYPE ;
-#define WARMUPTIME 10000 // 10sec
-#define DELTASIZE 140
-
 unsigned long previousMillis = 0;        // will store last time LED was updated
 const long interval = 10;           // interval at which to blink (milliseconds)
+
+#define pin_sinyal A8
 int BPM;
-
-
 void setup()
 {
-  Serial.begin(115200);
-  Serial.println("started");
-  
-  uint64_t chipid;
-  chipid = ESP.getEfuseMac();
-  clientId += "-";
-  clientId += String((uint32_t)chipid, HEX);
-  Serial.println("clientId :" + clientId);
-
-  //pinMode(OutputPin, INPUT); // Setup for leads off detection 
-  pinMode(OutputPinLplus, INPUT); // Setup for leads off detection LO +
-  pinMode(OutputPinLminus, INPUT); // Setup for leads off detection LO -
-
-  while (millis() < WARMUPTIME) {
-    delay(1);
-  }
-  Serial.println("warmup time completed.");
-
-  //delay(1000);
+  Serial.begin(9600);
 }
+
 
 
 void loop()
 {
-  /*
-  Serial.print("analogRead(OutputPin):");
-  Serial.print(analogRead(OutputPin));
-  Serial.print("  analogRead(OutputPinLplus):");
-  Serial.print(analogRead(OutputPinLplus));
-  Serial.print("  analogRead(OutputPinLminus):");
-  Serial.println(analogRead(OutputPinLminus));
-  */
-  /*
-  if ( (analogRead(OutputPinLplus)!=0) || (analogRead(OutputPinLminus)!=0) ) {
-    Serial.print("!");
-  }
-  else {
-    Serial.println(analogRead(OutputPin));
-  }
-  delay(1);//small delay to prevent saturation of serial port
-  */
-
   unsigned long currentMillis = millis();
 
   if (currentMillis - previousMillis >= interval)
   {
     previousMillis = currentMillis;
-    hitung_HR(analogRead(OutputPin));
+    hitung_HR(analogRead(pin_sinyal));
     //    Serial.println(analogRead(pin_sinyal));
   }
 
   Serial.println(BPM);
-
 }
 
 unsigned long oldtime = 0;
@@ -96,7 +42,7 @@ void hitung_HR(int data_pulse)
 
   //Serial.println(data_now);
   //Serial.println(delta_data);
-  if (delta_data > DELTASIZE) // detek pertama
+  if (delta_data > 140) // detek pertama
   {
     if (flag_detek == false)
     {
