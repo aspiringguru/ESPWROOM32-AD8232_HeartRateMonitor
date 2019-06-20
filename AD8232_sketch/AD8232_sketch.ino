@@ -1,30 +1,59 @@
+/*
+ * 
+ * 
+ * 
+ */
+
 
 const int OutputPin = 34;
 const int OutputPinLplus = 32;
 const int OutputPinLminus = 35;
-int Output = 0;
-int Lplus = 0;
-int Lminus = 0;
+uint32_t Output;
+uint32_t millistimer = millis();
 
+#define DEVICE_TYPE "ESPWROOM32" //
+String clientId = DEVICE_TYPE ;
+#define WARMUPTIME 10000 // 10sec
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println("started");
-  delay(1000);
+  
+  uint64_t chipid;
+  chipid = ESP.getEfuseMac();
+  clientId += "-";
+  clientId += String((uint32_t)chipid, HEX);
+  Serial.println("clientId :" + clientId);
+
+  //pinMode(OutputPin, INPUT); // Setup for leads off detection 
+  pinMode(OutputPinLplus, INPUT); // Setup for leads off detection LO +
+  pinMode(OutputPinLminus, INPUT); // Setup for leads off detection LO -
+
+  while (millis() < WARMUPTIME) {
+    delay(1);
+  }
+  Serial.println("warmup time completed.");
+
+  //delay(1000);
 }
 
 
 void loop()
 {
-  Output = analogRead(OutputPin);
-  Lplus = analogRead(OutputPinLplus);
-  Lminus = analogRead(OutputPinLminus);
-  Serial.print("Output:");
-  Serial.print(Output);  
-  Serial.print("  Lplus :");
-  Serial.print(Lplus );  
-  Serial.print("  Lminus:");
-  Serial.println(Lminus);  
-  delay(500);
+  /*
+  Serial.print("analogRead(OutputPin):");
+  Serial.print(analogRead(OutputPin));
+  Serial.print("  analogRead(OutputPinLplus):");
+  Serial.print(analogRead(OutputPinLplus));
+  Serial.print("  analogRead(OutputPinLminus):");
+  Serial.println(analogRead(OutputPinLminus));
+  */
+  if ( (analogRead(OutputPinLplus)!=0) || (analogRead(OutputPinLminus)!=0) ) {
+    Serial.print("!");
+  }
+  else {
+    Serial.println(analogRead(OutputPin));
+  }
+  delay(1);//small delay to prevent saturation of serial port
 }
