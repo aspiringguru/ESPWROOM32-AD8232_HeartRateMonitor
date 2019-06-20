@@ -55,7 +55,6 @@ void loop()
   Serial.print("  analogRead(OutputPinLminus):");
   Serial.println(analogRead(OutputPinLminus));
   */
-  /*
   if ( (analogRead(OutputPinLplus)!=0) || (analogRead(OutputPinLminus)!=0) ) {
     Serial.print("!");
   }
@@ -63,8 +62,9 @@ void loop()
     Serial.println(analogRead(OutputPin));
   }
   delay(1);//small delay to prevent saturation of serial port
-  */
 
+
+  /*
   unsigned long currentMillis = millis();
 
   if (currentMillis - previousMillis >= interval)
@@ -73,8 +73,8 @@ void loop()
     hitung_HR(analogRead(OutputPin));
     //    Serial.println(analogRead(pin_sinyal));
   }
-
   Serial.println(BPM);
+  */
 
 }
 
